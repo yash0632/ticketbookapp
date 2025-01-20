@@ -7,21 +7,79 @@ import java.io.IOException;
 import java.util.*;
 
 public class UserBookingService {
-    private User user;
+
     private List<User> userList;
 
     private static final String USERS_PATH = "src/main/java/ticket/booking/localDb/users.json";
     private ObjectMapper objectMapper = new ObjectMapper();
 
-    public UserBookingService(User user) throws IOException {
-        this.user = user;
-        File users = new File(USERS_PATH);
+    public UserBookingService() throws IOException{
 
-        userList = objectMapper.readValue(users,new TypeReference<List<User>>(){});
+        loadUserListFromFile();
+
+
+    }
+
+    public registerUser(String name,String password,String username){
+
+            if(!checkUserPresent(username)){
+                User user = new User(name,password,username);
+                signUp(user);
+            }
+            else{
+
+            }
+
+
+
+    }
+
+    private boolean checkUserPresent(String username){
+
+            loadUserListFromFile();
+            boolean isUserPresent = false;
+            for(int i = 0;i < userList.size();i++){
+                if(userList.get(i).getUsername().equals(username)){
+                    isUserPresent = true;
+                    break;
+                }
+            }
+            return isUserPresent;
+
+
+    }
+
+    private void loadUserListFromFile(){
+        try{
+            userList = objectMapper.readValue(new File(USERS_PATH),new TypeReference<List<User>>(){});
+        }
+        catch(IOException err){
+            System.out.println("Error in reading files from USER_PATH");
+            System.exit(1);
+        }
+
     }
 
 
-    public Boolean loginUser(){
-        Optional<>
+    private boolean signUp(User user) throws IOException{
+        try{
+            userList.add(user);
+            saveUserListToFile();
+            return true;
+        }
+        catch(IOException err) {
+            return false;
+        }
+    }
+
+    private void saveUserListToFile() throws IOException{
+        try{
+            objectMapper.writeValue(new File(USERS_PATH), userList );
+        }
+        catch(IOException err){
+            System.out.println("Error in writing files to USER_PATH");
+            System.exit(1);
+        }
+
     }
 }
