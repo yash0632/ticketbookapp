@@ -30,11 +30,12 @@ public class Main {
                     case 1:
                         //Sign Up
                         System.out.println("Enter the username to signup");
+                        String usernameToSignUp = scanner.next();
+                        System.out.println("Enter the name to signup");
                         String nameToSignUp = scanner.next();
                         System.out.println("Enter the password to signup");
                         String passwordToSignUp = scanner.next();
-                        //User userToSignUp = new User(nameToSignUp,passwordToSignUp);
-                        userBookingService.signUp(userToSignUp);
+                        userBookingService.registerUser(nameToSignUp,passwordToSignUp,usernameToSignUp);
                         break;
                     case 2:
                         //Login
@@ -42,7 +43,7 @@ public class Main {
                         String nameToLogin = scanner.next();
                         System.out.println("Enter the Password to Login");
                         String password = scanner.next();
-
+                        userBookingService.loginUser()
                 }
             }
         }

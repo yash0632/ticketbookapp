@@ -11,7 +11,7 @@ public class User {
     @Getter
     private String username;
     private String name;
-
+    @Getter
     private String hashedPassword;
     private List<Ticket> ticketsBooked;
     private String userId;
